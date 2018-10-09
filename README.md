@@ -1,1 +1,1 @@
-# ihc_equipe7_2018-2
+# Comande - Sistema de comandas para clientes de restaurantes (em construção)
