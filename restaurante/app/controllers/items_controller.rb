@@ -1,5 +1,6 @@
 class ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :get_categories, only: [:new, :edit, :menu]
 
   # GET /items
   # GET /items.json
@@ -7,9 +8,16 @@ class ItemsController < ApplicationController
     @items = Item.all
   end
 
-  # def cardapio
-  #   @bill = Bill.create()
-  # end
+  # Diferente de Index pois aqui é para visão do usuário e não gerenciamento interno de items
+  def menu
+    @bill = params[:bill_id]
+    @items = Item.all
+    @orders = Order.where(bill_id: @bill)
+  end
+
+  def order_item
+    redirect_back(fallback_location: root_path)
+  end
 
   # GET /items/1
   # GET /items/1.json
@@ -66,6 +74,10 @@ class ItemsController < ApplicationController
   end
 
   private
+    def get_categories
+      @categories = Category.all
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_item
       @item = Item.find(params[:id])

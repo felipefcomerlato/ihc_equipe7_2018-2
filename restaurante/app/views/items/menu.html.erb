@@ -1,0 +1,45 @@
+<%= "Comanda #{@bill}" %>
+
+<h2> Cardápio </h2>
+<table>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Descrição</th>
+      <th>Valor(R$)</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @items.each do |item| %>
+      <tr>
+        <td><%= item.name %></td>
+        <td><%= item.description %></td>
+        <td><%= item.value %></td>
+        <td><%= link_to 'Pedir', orders_path(:bill_id => @bill), method: :post, data: { confirm: "Deseja pedir isto?"} %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<h2> Pedidos realizados </h2>
+<table>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Descrição</th>
+      <th>Valor(R$)</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @orders.each do |orders| %>
+      <tr>
+        <td><%= orders.name %></td>
+        <td><%= orders.description %></td>
+        <td><%= orders.value %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
