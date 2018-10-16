@@ -2,6 +2,13 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 .new_bill_button{
-  color:red;
-  font-size:36px;
+  font-size:5em;
+  width: 100%;
+}
+
+.new_bill_label{
+  font-size: 60px;
+  text-align: center;
+  margin-bottom:30px;
+  margin-top:150px;
 }
