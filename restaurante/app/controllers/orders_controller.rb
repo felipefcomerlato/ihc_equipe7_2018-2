@@ -17,6 +17,13 @@ class OrdersController < ApplicationController
     @order = Order.new
   end
 
+  def add_order
+    @order = Order.new(:value => params[:value], :description => params[:description], :obs => '', :qtd => 1, :bill_id => params[:bill_id])
+    if @order.save
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
   # GET /orders/1/edit
   def edit
   end
@@ -24,8 +31,8 @@ class OrdersController < ApplicationController
   # POST /orders
   # POST /orders.json
   def create
-    @order = Order.new(order_param)
-    
+    @order = Order.new(order_params)
+
     if @order.save
       redirect_back(fallback_location: root_path)
     end
