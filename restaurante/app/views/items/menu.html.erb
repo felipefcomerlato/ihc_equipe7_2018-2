@@ -1,45 +1,50 @@
-<%= "Comanda #{@bill}" %>
-
-<h2> Cardápio </h2>
-<table>
-  <thead>
-    <tr>
-      <th>Item</th>
-      <th>Descrição</th>
-      <th>Valor(R$)</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @items.each do |item| %>
+<div style="float:left; border:1px solid red;">
+  <h2> Pedidos realizados </h2>
+  <h5> <%= "Comanda Nº #{@bill}" %> </h5>
+  <h5> <%= "Mesa 01" %> </h5>
+  <table>
+    <thead>
       <tr>
-        <td><%= item.name %></td>
-        <td><%= item.description %></td>
-        <td><%= item.value %></td>
-        <td><%= link_to 'Pedir', orders_path(:bill_id => @bill), method: :post, data: { confirm: "Deseja pedir isto?"} %></td>
+        <th>Item</th>
+        <th>Descrição</th>
+        <th>Valor(R$)</th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
 
-<h2> Pedidos realizados </h2>
-<table>
-  <thead>
-    <tr>
-      <th>Item</th>
-      <th>Descrição</th>
-      <th>Valor(R$)</th>
-    </tr>
-  </thead>
+    <tbody>
+      <% @orders.each do |orders| %>
+        <tr>
+          <td><%= orders.name %></td>
+          <td><%= orders.description %></td>
+          <td><%= orders.value %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 
-  <tbody>
-    <% @orders.each do |orders| %>
+
+<div style="margin-left:40px;float:left; border: 1px solid green; width:50%;">
+  <h2> Cardápio </h2>
+  <table width="100%">
+    <thead>
       <tr>
-        <td><%= orders.name %></td>
-        <td><%= orders.description %></td>
-        <td><%= orders.value %></td>
+        <th>Item</th>
+        <th>Descrição</th>
+        <th>Valor(R$)</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+
+    <tbody>
+      <% @items.each do |item| %>
+          <tr>
+            <td><%= item.name %></td>
+            <td><%= item.description %></td>
+            <td><%= item.value %></td>
+            <td><%= button_to 'Pedir', add_order_path(name: item.name, value: item.value, :description => item.description, :obs => '', :qtd => 1, :bill_id => @bill), :method => :post, :class => 'btn btn-success' %>
+          </tr>
+        <% end %>
+    </tbody>
+  </table>
+</div>
