@@ -18,7 +18,7 @@ class OrdersController < ApplicationController
   end
 
   def add_order
-    @order = Order.new(:value => params[:value], :description => params[:description], :obs => '', :qtd => 1, :bill_id => params[:bill_id])
+    @order = Order.new(:value => params[:value], :description => params[:description], :obs => '', :qtd => 1, :bill_id => params[:bill_id], :name => params[:name])
     if @order.save
       redirect_back(fallback_location: root_path)
     end
