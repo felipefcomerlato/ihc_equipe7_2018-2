@@ -1,37 +1,49 @@
-<div style="float:left; border:1px solid red;">
-  <h2> Pedidos realizados </h2>
-  <h5> <%= "Comanda Nº #{@bill}" %> </h5>
-  <h5> <%= "Mesa 01" %> </h5>
-  <table>
+<div class="menu-my-orders">
+  <h2> Minha comanda </h2>
+  <h6> <%= "Mesa 01 - Comanda Nº #{@bill}" %> </h6>
+  <table width="100%">
     <thead>
       <tr>
-        <th>Item</th>
-        <th>Descrição</th>
-        <th>Valor(R$)</th>
+        <th></th>
       </tr>
     </thead>
 
     <tbody>
-      <% @orders.each do |orders| %>
+      <% @orders.order(created_at: :asc).each do |order| %>
         <tr>
-          <td><%= orders.name %></td>
-          <td><%= orders.description %></td>
-          <td><%= orders.value %></td>
+          <td class="menu-my-orders-each">
+            <span class="menu-my-order-name"><%= order.name %></span>
+            <span class="menu-my-order-value">
+                <% order_value = "%0.02f" % order.value.round(2) %>
+                R$<%= order_value.to_s.sub(".",",") %>
+            </span>
+          </td>
         </tr>
       <% end %>
+        <tr>
+          <td class="menu-my-orders-total">
+            <% if @orders.sum(:value) != 0 %>
+              <% orders_total = "%0.02f" % @orders.sum(:value).round(2) %>
+              <span class="menu-my-orders-total-label">R$ <%= orders_total.to_s.sub(".",",") %></span>
+            <% else %>
+              Faça seu primeiro pedido!
+            <% end %>
+          </td>
+        </tr>
     </tbody>
   </table>
 </div>
 
 
-<div style="margin-left:40px;float:left; border: 1px solid green; width:50%;">
+<div class="menu-items">
   <h2> Cardápio </h2>
   <table width="100%">
     <thead>
       <tr>
-        <th>Item</th>
-        <th>Descrição</th>
-        <th>Valor(R$)</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
         <th></th>
       </tr>
     </thead>
@@ -39,10 +51,15 @@
     <tbody>
       <% @items.each do |item| %>
           <tr>
-            <td><%= item.name %></td>
-            <td><%= item.description %></td>
-            <td><%= item.value %></td>
-            <td><%= button_to 'Pedir', add_order_path(name: item.name, value: item.value, :description => item.description, :obs => '', :qtd => 1, :bill_id => @bill), :method => :post, :class => 'btn btn-success' %>
+            <td class="menu-item-column-photo"><%= image_tag("items/brasserie_prato_dez.jpg", :style => "width: 100%;") %></td>
+            <td>
+              <div class="menu-item-name"><%= item.name %></div>
+              <div class="menu-item-description"><%= item.description %></div>
+            </td>
+            <% item_value = "%0.02f" % item.value.round(2) %>
+            <td class="menu-item-value">R$<%= item_value.to_s.sub(".",",") %> </td>
+            <td><%= button_to 'Ver / modificar', item, :method => :get, :class => 'btn btn-primary menu-item-btn' %>
+            <td><%= button_to 'Pedir', add_order_path(name: item.name, value: item.value, :description => item.description, :obs => '', :qtd => 1, :bill_id => @bill), :method => :post, :class => 'btn btn-success menu-item-btn' %>
           </tr>
         <% end %>
     </tbody>

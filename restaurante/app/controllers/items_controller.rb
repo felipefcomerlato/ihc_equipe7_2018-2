@@ -5,7 +5,7 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.all
+    @items = Item.all.order(category_id: :asc)
   end
 
   # Diferente de Index pois aqui é para visão do usuário e não gerenciamento interno de items
@@ -85,6 +85,6 @@ class ItemsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def item_params
-      params.require(:item).permit(:name, :description, :value)
+      params.require(:item).permit(:name, :description, :value, :category_id, :photo)
     end
 end
