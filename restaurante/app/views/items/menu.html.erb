@@ -37,21 +37,40 @@
 
 <div class="menu-items">
   <h2> Cardápio </h2>
+  <hr />
   <table width="100%">
     <thead>
       <tr>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th colspan="5" class="menu-categoria-label">Almoços</th>
       </tr>
     </thead>
 
     <tbody>
-      <% @items.each do |item| %>
+      <% @items.where(category_id: 1).each do |item| %>
           <tr>
-            <td class="menu-item-column-photo"><%= image_tag("items/brasserie_prato_dez.jpg", :style => "width: 100%;") %></td>
+            <td class="menu-item-column-photo"><%= image_tag("items/#{item.photo}", :style => "width: 100%;") %></td>
+            <td>
+              <div class="menu-item-name"><%= item.name %></div>
+              <div class="menu-item-description"><%= item.description %></div>
+            </td>
+            <% item_value = "%0.02f" % item.value.round(2) %>
+            <td class="menu-item-value">R$<%= item_value.to_s.sub(".",",") %> </td>
+            <td><%= button_to 'Ver / modificar', item, :method => :get, :class => 'btn btn-primary menu-item-btn' %>
+            <td><%= button_to 'Pedir', add_order_path(name: item.name, value: item.value, :description => item.description, :obs => '', :qtd => 1, :bill_id => @bill), :method => :post, :class => 'btn btn-success menu-item-btn' %>
+          </tr>
+        <% end %>
+    </tbody>
+    
+    <thead>
+      <tr>
+        <th colspan="5" class="menu-categoria-label">Bebidas</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @items.where(category_id: 3).each do |item| %>
+          <tr>
+            <td class="menu-item-column-photo"><%= image_tag("items/#{item.photo}", :style => "width: 100%;") %></td>
             <td>
               <div class="menu-item-name"><%= item.name %></div>
               <div class="menu-item-description"><%= item.description %></div>
